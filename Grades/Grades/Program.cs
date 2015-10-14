@@ -11,7 +11,7 @@ namespace Grades
     {
         static void Main(string[] args)
         {
-            GradeBook book = new GradeBook();
+            GradeTracker book = CreateGradeBook();
 
             AddEventListeners(book);
             GetBookName(book);
@@ -20,7 +20,13 @@ namespace Grades
             WriteResults(book);
         }
 
-        private static void WriteResults(GradeBook book)
+        private static GradeTracker CreateGradeBook()
+        {
+            // becasuse of polymorphism, this could also return a new GradeBook();
+            return new ThrowAwayGradeBook();
+        }
+
+        private static void WriteResults(GradeTracker book)
         {
             GradeStatistics stats = book.ComputeStatistics();
             Console.WriteLine(book.Name);
@@ -30,7 +36,7 @@ namespace Grades
             writeResult(stats.Description, stats.LetterGrade);
         }
 
-        private static void SaveGrades(GradeBook book)
+        private static void SaveGrades(GradeTracker book)
         {
             using (StreamWriter outputFile = File.CreateText("grades.txt"))
             {
@@ -40,14 +46,14 @@ namespace Grades
             }
         }
 
-        private static void AddBookGrades(GradeBook book)
+        private static void AddBookGrades(GradeTracker book)
         {
             book.AddGrade(91);
             book.AddGrade(89.5f);
             book.AddGrade(75);
         }
 
-        private static void GetBookName(GradeBook book)
+        private static void GetBookName(GradeTracker book)
         {
             book.Name = "Scott's Grade Book";
             book.Name = "Grade Book";
@@ -64,7 +70,7 @@ namespace Grades
             }
         }
 
-        private static void AddEventListeners(GradeBook book)
+        private static void AddEventListeners(GradeTracker book)
         {
             book.NameChanged += new NameChangedDelegate(OnNameChangedReportChange);
             book.NameChanged += new NameChangedDelegate(OnNameChangedDrawStars);

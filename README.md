@@ -27,6 +27,11 @@ Notes
     + The public keyword means a method or variable that can be accessed from the outside of a class instance.
     + The private keyword means a method or variable that can only be accessed internally of a class instance.
     + The internal keyword means a method or variable can only be used within the same project (?)
+    + The protected keyword means a method or variable can only be accessed internally of a class instance OR in a derived class.
+    + The virtual keyword means a method or variable can be overwritten by its inherited subclasses.
+    + The override keyword means the method or variable is intended to override its parent's virtual method or variable.
+    + The abstract keyword means a class cannot be instantiated. In this context, an abstract method or variable MUST BE provided in the inheriting subclass. Virtual methods or variables can exist in an abstract class to allow optional overwrite.
+    + The interface keyword means this is not a class, but an interface type. This means no implementation details will exist within, and instead only definition of methods, events and properties. These can be inherited from just like abstract classes, but also have the ability to be inherited from multiple times at once.
 - Types
     + Struct vs Class
         * If small, logically immutable and there may be many instances of them, it makes sense to make them a struct.
@@ -222,3 +227,67 @@ Notes
         ```
 
 - Visual Studio allows you to highlight statements within a method, hit Ctrl+., and then "extract" the statements into their own method relatively painlessly. Allows you to refactor and clean up your code quite quickly.
+- Three pillars of OOP
+    + Encapsulation - Primary attribute; hides complexity so that those using do not need to know about the data structures or calculations within a method or class.
+    + Inheritance
+        * Avoids reusing code / reusing data. Allows to define a relationship between two classes such that one class takes on or inherits the members of another class.
+        * Syntax for inheritence is: "public class NewClass : BaseClass {}"
+        * Only one inheritence per line allowed, but you can chain inheritence on separate lines for an unlimited depth.
+        * Generic Example:
+
+            ```c#
+            public class A
+            {
+                public void DoStuff()
+                {
+                    // do stuff here
+                }
+            }
+
+            // B has a DoStuff method too
+            public class B : A {}
+
+            // and so does C
+            public class C : B {}
+            ```
+
+        * Example with EventArgs:
+            
+            ```c#
+            public class SomeEventEventArgs : EventArgs
+            {
+                public string oldValue {get;set;}
+                public string newValue {get;set;}
+            }
+            ```
+
+        * Need to be cautious with inheritence, because you can easily tie yourself up with your implementation and gridlock your coding patterns. Relationship cannot be broken. Can use abstract classes / interfaces to avoid use.
+        * Derived types can be assigned to variables of the type of its parents. In the generic example above, a variable of type A is allowed to be assigned to an object of type B or C.
+        * Can call parent members using keyword 'base' (similar to 'this').
+    + Polymorphism
+        * Avoids reusing code / reusing data.
+        * Means having "many shapes"
+        * As long as an object inherited from a type, it can be used in place of its base type(s).
+        * System.Object is the ultimate base class for any object in .NET; if a class is created without an inheritance relationship it is implicitly inheriting System.Object
+        * The Object type is accessible via the keyword 'object'.
+        * Without a virtual and override keyword on overwritten methods or variables, which method actually gets called when accessing an object's methods is based upon the context of the expected type.
+    + Abstract Classes
+        * Abstract classes cannot be instantiated and can have abstract members (must be provided by subclass).
+        * Can be used to require functionality and typing that doesn't exist yet and still accomplish type safety.
+        * While they can't be implemented, they can be required as a type in an argument so that only derived classes can be passed in.
+    + Interface
+        * Similar to abstract classes but can never contain any implementation details.
+        * You're defining the API for an object only in an interface; only define the signatures of methods, events and properties.
+        * Common convention is to define it with a leading capital I (eg IWindow).
+        * Unlike abstract classes: A type can implement muiltiple interfaces at once.
+        * The ultimate abstraction...
+        * Example:
+
+        ```c#
+        public interface IWindow
+        {
+            string Title { get; set; }
+            void Draw();
+            void Open();
+        }
+        ```
