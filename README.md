@@ -21,11 +21,12 @@ Notes
             Console.WriteLine("{0}: {1:C}", description, result);
         }
         ```
-        
+
 - Declaration Keywords
     + The static keyword means a class method that can be reached without creating an instance of the class.
     + The public keyword means a method or variable that can be accessed from the outside of a class instance.
     + The private keyword means a method or variable that can only be accessed internally of a class instance.
+    + The internal keyword means a method or variable can only be used within the same project (?)
 - Types
     + Struct vs Class
         * If small, logically immutable and there may be many instances of them, it makes sense to make them a struct.
@@ -45,7 +46,7 @@ Notes
             ```
 
 - Properties
-    + A property can be created within a class by making it a public variable with body containing get and set bodies. get and set can be declared without bodies to use the default get and set methods. Example:
+    + A property can be created within a class by making it a public variable with body containing get and set bodies. get and set can be declared without bodies to use the default get and set methods. get or set can be excluded to not implement them. Example:
 
         ``` c#
         public class Person 
@@ -136,3 +137,88 @@ Notes
         return result;
         ```
 
+- Iterating
+    + foreach keyword is available:
+    
+        ```c#
+        int[] ages = {2, 21, 40, 72, 100};
+        foreach (int value in age)
+        {
+            Console.WriteLine(value);
+        }
+        ```
+
+    + standard for iterator is available; identical to c++ or javascript
+
+        ```c#
+        // for (initializer(s); test expression; iterator) {body}
+        for (int i = 0; i < age; i++)
+        {
+            Console.WriteLine(i);
+        }
+        ```
+
+    + while iterator is available (watch out for infinite loops):
+
+        ```c#
+        while (age > 0)
+        {
+            age -= 1;
+            Console.WriteLine(age);
+        }
+        ```
+
+    + do while is same as while but will always execute once:
+
+        ```c#
+        do
+        {
+            //stuff
+        } while (age < 100);
+        ```
+
+- Jumping
+    + break - leaves the current do, while, for, foreach, or switch
+    + continue - skip to the next iteration of a loop
+    + goto - basically don't use this, avoid at all costs, harder to follow. can jump immediately to a label in a program.
+    + return - return a value for a method; voids can return with no arguments to explicitly exit a method
+    + throw - used to raise an exception (an error condition exists)
+- Exceptions
+    + Used to provide type safe and structured error handling
+    + Exceptions are objects of a known type (lots of Exception types built in to .NET)
+    + Throw example:
+    
+        ```c#
+        throw new ArgumentException("Invalid Argument!");
+        ```
+
+    + Unhandled exceptions terminate a program immediately; often print stack traces to help find the source of the runtime error.
+    + Handling exceptions is done using a try/catch block; runtime searches for the closest matching catch statement. Example:
+
+        ```c#
+        try
+        {
+            ComputeStatistics();
+        }
+        catch(DivideByZeroException ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
+        }
+        ```
+
+    + A try block can be followed by multiple catch statements (called chaining). Catch statements are evaluated from top-to-bottom and only one will execute, so it's important to put your most specific exceptions at the top of the chain.
+    + A "finally" block can follow a try / catch block to ensure something runs even if control jumps out of scope; for example, releasing a file handle. Finally blocks always execute whether scope jumps out or not.
+    + If an object has a Dispose method you can see in Intellisense, you can use the "using" statement to wrap a resource to ensure it is "finally" closed no matter what without using an explicit finaly block. Example:
+
+        ```c#
+        using(FileStream file1 = new FileStream("in.txt", FileMode.Open))
+        using(FileStream file2 = new FileStream("out.txt", FileMode.Create))
+        {
+            // do stuff with file1 and file2
+        }
+
+        // file1 and file2 have been released at this point
+        ```
+
+- Visual Studio allows you to highlight statements within a method, hit Ctrl+., and then "extract" the statements into their own method relatively painlessly. Allows you to refactor and clean up your code quite quickly.
