@@ -11,15 +11,17 @@ Notes
         * ":F2" means format as a float to two decimals
         * ":C" means format as currency
     + Examples:
-    ``` c#
-    static void writeResult(string description, float result)
-    {
-        Console.WriteLine("{0}: {1:F2}", description, result);
-        Console.WriteLine($"{description}: {result:F2}");
-        Console.WriteLine(description + ": " + result);
-        Console.WriteLine("{0}: {1:C}", description, result);
-    }
-    ```
+
+        ``` c#
+        static void writeResult(string description, float result)
+        {
+            Console.WriteLine("{0}: {1:F2}", description, result);
+            Console.WriteLine($"{description}: {result:F2}");
+            Console.WriteLine(description + ": " + result);
+            Console.WriteLine("{0}: {1:C}", description, result);
+        }
+        ```
+        
 - Declaration Keywords
     + The static keyword means a class method that can be reached without creating an instance of the class.
     + The public keyword means a method or variable that can be accessed from the outside of a class instance.
@@ -34,34 +36,103 @@ Notes
     + Ref & Out Keywords
         * You can use the 'ref' keyword to force something to be passed by reference. A class can be passed by reference through ref (resulting in a sort of pointer to a pointer of a class instance).
         * You can use the 'out' keyword to signify that the object will be initialized inside the function. Basically, the parameter will not be used, only set.
+    + Casting
+        * Types can be "casted" into other types and most explicitly do so when in a situation where precision will be lost, for example:
+
+            ``` c#
+            float testFloat = 6.21;
+            int castedFloat = (int)testFloat; // 6
+            ```
+
 - Properties
     + A property can be created within a class by making it a public variable with body containing get and set bodies. get and set can be declared without bodies to use the default get and set methods. Example:
-    ``` c#
-    public class Person 
-    {
-        private string _privatestr;
 
-        public Person()
+        ``` c#
+        public class Person 
         {
-            _privatestr = "DON'T LOOK!";
-        }
+            private string _privatestr;
 
-        public string GoAway
-        {
-            get
+            public Person()
             {
-                Console.WriteLine("SOMEONE LOOKED!")
-                return _privatestr;
+                _privatestr = "DON'T LOOK!";
             }
-            set
+
+            public string GoAway
             {
-                Console.WriteLine("SOMEONE SET!");
-                _privatestr = value;
+                get
+                {
+                    Console.WriteLine("SOMEONE LOOKED!")
+                    return _privatestr;
+                }
+                set
+                {
+                    Console.WriteLine("SOMEONE SET!");
+                    _privatestr = value;
+                }
             }
         }
-    }
-    ```
+        ```
+
 - Delegates & Events
     + Delegates are a way of creating a type-safe function pointer.
     + Events are subsets of delegates but do not allow completely overwriting the list of listeners.
     + When calling events, the convention is that the first return value is itself (the sender; usually the keyword 'this' in context), and then second return value is an instance of a <something>EventArgs object (inherited from the EventArgs base class) containing all information about the event.
+- Branching
+    + "if (expression) {} else if (expression2) {} else {}" branching is available:
+
+        ``` c#
+        string result;
+        if(AverageGrade >= 90 )
+        {
+            result = "A";
+        }
+        else if(AverageGrade >= 80)
+        {
+            result = "B";
+        }
+        else if (AverageGrade >= 70)
+        {
+            result = "C";
+        }
+        else if (AverageGrade >= 60)
+        {
+            result = "D";
+        } else
+        {
+            result = "F";
+        }
+        return result;
+        ```
+
+    + Ternary operator available, eg:
+
+        ``` c#
+        // if age is greater than 20, pass is "pass", otherwise "nopass"
+        string pass = age > 20 ? "pass" : "nopass";
+        ```
+
+    + switch statements are also available (don't forget to break!):
+
+        ``` c#
+        string result;
+        switch (LetterGrade)
+        {
+            case "A":
+                result = "Excellent";
+                break;
+            case "B":
+                result = "Good";
+                break;
+            case "C":
+                result = "Average";
+                break;
+            case "D":
+                result = "Below Average";
+                break;
+            default:
+                result = "Failing";
+                break;
+        }
+        return result;
+        ```
+
