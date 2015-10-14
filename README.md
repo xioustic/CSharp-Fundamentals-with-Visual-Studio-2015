@@ -1,0 +1,1 @@
+Projects created during coursework for [Pluralsight's C# Fundamentals with Visual Studio 2015 by Scott Allen](http://www.pluralsight.com/courses/c-sharp-fundamentals-with-visual-studio-2015).
