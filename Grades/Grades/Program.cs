@@ -12,11 +12,13 @@ namespace Grades
         {
             GradeBook book = new GradeBook();
 
-            book.NameChanged += new NameChangedDelegate(OnNameChanged);
-            book.NameChanged += new NameChangedDelegate(OnNameChanged2);
-            book.NameChanged += OnNameChanged2;
-            book.NameChanged -= OnNameChanged2;
-            //book.NameChanged -= OnNameChanged2;
+            book.NameChanged += new NameChangedDelegate(OnNameChangedReportChange);
+            book.NameChanged += new NameChangedDelegate(OnNameChangedDrawStars);
+            // equivalent to the above (shorthand)
+            book.NameChanged += OnNameChangedReportChange;
+            book.NameChanged += OnNameChangedDrawStars;
+            // can also remove
+            book.NameChanged -= OnNameChangedReportChange;
             // Below is valid for Delegates but invalid for Events
             //book.NameChanged = OnNameChanged2;
 
@@ -51,11 +53,11 @@ namespace Grades
         {
             Console.WriteLine(description + ": " + result);
         }
-        static void OnNameChanged(object sender, NameChangedEventArgs args)
+        static void OnNameChangedReportChange(object sender, NameChangedEventArgs args)
         {
             Console.WriteLine($"Grade book changed name from {args.Existing} to {args.NewName}");
         }
-        static void OnNameChanged2(object sender, NameChangedEventArgs args)
+        static void OnNameChangedDrawStars(object sender, NameChangedEventArgs args)
         {
             Console.WriteLine("***");
         }
