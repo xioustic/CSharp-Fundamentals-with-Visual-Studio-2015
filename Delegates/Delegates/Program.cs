@@ -48,7 +48,7 @@ namespace Delegates
             mylog2: Success!!
             */
 
-            // now only the first logger's method is on the delegate
+            // now assign only the first logger's method on the delegate
             writer = logger.WriteMessage;
 
             writer("Less success!!");
