@@ -281,6 +281,9 @@ Notes
         * Common convention is to define it with a leading capital I (eg IWindow).
         * Unlike abstract classes: A type can implement muiltiple interfaces at once.
         * The ultimate abstraction...
+        * Does not allow for use of access keywords, such as public, protected or private since anyone inheriting it MUST have access to every property (since there's no implementation).
+        * There is also no use for abstract keyword since everything must be overwritten by design.
+        * When inheriting interfaces and a class, the single class must come first after the inheritance colon and then interfaces can follow with commas delimiting them.
         * Example:
 
         ```c#
@@ -291,3 +294,10 @@ Notes
             void Open();
         }
         ```
+
+        * Important (common) built-in interfaces:
+            - IDisposable => Releases resources (files, connections)
+            - IEnumerable => Supports iteration (foreach)
+            - INotifyPropertyChange => Raises events when properties change, often used for automatic UI updating
+            - IComparable => Compares for sorting
+            - Inherit from any of the above to have your class provide the above functionality; follow intellisense tips to actually get the implementation framework setup

@@ -11,7 +11,7 @@ namespace Grades
     {
         static void Main(string[] args)
         {
-            GradeTracker book = CreateGradeBook();
+            IGradeTracker book = CreateGradeBook();
 
             AddEventListeners(book);
             GetBookName(book);
@@ -20,15 +20,22 @@ namespace Grades
             WriteResults(book);
         }
 
-        private static GradeTracker CreateGradeBook()
+        private static IGradeTracker CreateGradeBook()
         {
             // becasuse of polymorphism, this could also return a new GradeBook();
             return new ThrowAwayGradeBook();
         }
 
-        private static void WriteResults(GradeTracker book)
+        private static void WriteResults(IGradeTracker book)
         {
             GradeStatistics stats = book.ComputeStatistics();
+
+            foreach (float grade in book)
+            {
+                Console.WriteLine(grade);
+            }
+
+
             Console.WriteLine(book.Name);
             writeResult("Average", stats.AverageGrade);
             writeResult("Highest", (int)stats.HighestGrade);
@@ -36,7 +43,7 @@ namespace Grades
             writeResult(stats.Description, stats.LetterGrade);
         }
 
-        private static void SaveGrades(GradeTracker book)
+        private static void SaveGrades(IGradeTracker book)
         {
             using (StreamWriter outputFile = File.CreateText("grades.txt"))
             {
@@ -46,14 +53,14 @@ namespace Grades
             }
         }
 
-        private static void AddBookGrades(GradeTracker book)
+        private static void AddBookGrades(IGradeTracker book)
         {
             book.AddGrade(91);
             book.AddGrade(89.5f);
             book.AddGrade(75);
         }
 
-        private static void GetBookName(GradeTracker book)
+        private static void GetBookName(IGradeTracker book)
         {
             book.Name = "Scott's Grade Book";
             book.Name = "Grade Book";
@@ -70,7 +77,7 @@ namespace Grades
             }
         }
 
-        private static void AddEventListeners(GradeTracker book)
+        private static void AddEventListeners(IGradeTracker book)
         {
             book.NameChanged += new NameChangedDelegate(OnNameChangedReportChange);
             book.NameChanged += new NameChangedDelegate(OnNameChangedDrawStars);
