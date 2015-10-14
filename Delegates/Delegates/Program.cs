@@ -49,6 +49,7 @@ namespace Delegates
             */
 
             // now assign only the first logger's method on the delegate
+            // note that if Writer was an Event, this is not allowed
             writer = logger.WriteMessage;
 
             writer("Less success!!");
