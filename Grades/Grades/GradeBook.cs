@@ -50,7 +50,7 @@ namespace Grades
                         NameChangedEventArgs args = new NameChangedEventArgs();
                         args.Existing = _name;
                         args.NewName = value;
-                        NameChanged(this, args);
+                        //NameChanged(this, args);
                     }
                     _name = value;
                 }
